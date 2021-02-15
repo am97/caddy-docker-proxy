@@ -6,7 +6,7 @@ jobs:
   steps:
   - task: GoTool@0
     inputs:
-      version: '1.17'
+      version: '1.17.x'
       GOPATH: '$(Agent.BuildDirectory)/go'
       GOBIN: '$(GOPATH)/bin'
 
@@ -43,13 +43,6 @@ jobs:
       ./build-images-linux.sh
     displayName: 'Build images'
 
-  - bash: |
-      ./push-images-linux.sh
-    env:
-      DOCKER_PASSWORD: '$(DOCKER_PASSWORD)'
-    condition: succeeded()
-    displayName: 'Push images'
-
 - job: Build_Images_Windows
   dependsOn: Build_Binaries
   pool:
@@ -64,10 +57,3 @@ jobs:
   - bash: |
       ./build-images-windows.sh
     displayName: 'Build images'
-
-  - bash: |
-      ./push-images-windows.sh
-    env:
-      DOCKER_PASSWORD: '$(DOCKER_PASSWORD)'
-    condition: succeeded()
-    displayName: 'Push images'
